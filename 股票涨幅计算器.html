@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>股票涨幅计算器</title>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --accent-blue: #3b82f6;
+      --text-light: #f1f5f9;
+      --border-blue: #1e40af;
+      --card-bg: #1e293b;
+    }
+    
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .calculator-card {
+      background-color: var(--card-bg);
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
+      width: 100%;
+      max-width: 450px;
+      padding: 30px;
+      border: 1px solid var(--border-blue);
+    }
+    
+    h1 {
+      text-align: center;
+      color: var(--accent-blue);
+      margin-bottom: 30px;
+      font-weight: 600;
+      font-size: 28px;
+    }
+    
+    .input-group {
+      margin-bottom: 25px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      border: 2px solid #334155;
+      background-color: #0f172a;
+      color: white;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+    }
+    
+    .calculate-btn {
+      background-color: var(--accent-blue);
+      color: white;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-bottom: 25px;
+    }
+    
+    .calculate-btn:hover {
+      background-color: #2563eb;
+    }
+    
+    .result-container {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+      border-radius: 10px;
+      padding: 25px;
+      text-align: center;
+      border: 1px solid var(--border-blue);
+    }
+    
+    #result {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      margin-top: 10px;
+    }
+    
+    .error {
+      color: #ef4444;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+    
+    .deploy-info {
+      margin-top: 30px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: rgba(30, 41, 59, 0.7);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator-card">
+    <h1>股票涨幅计算器</h1>
+    
+    <div class="input-group">
+      <label for="openPrice">开盘价（元）</label>
+      <input type="number" id="openPrice" placeholder="输入股票开盘价格" step="0.001">
+    </div>
+    
+    <div class="input-group">
+      <label for="increaseRate">涨幅比率（%）</label>
+      <input type="number" id="increaseRate" placeholder="输入涨跌幅百分比" step="0.01">
+    </div>
+    
+    <button class="calculate-btn" onclick="calculate()">计算最终价格</button>
+    
+    <div class="result-container">
+      <div>计算结果：</div>
+      <div id="result">0.000</div>
+    </div>
+    
+    <div id="errorMsg" class="error"></div>
+    
+    <div class="deploy-info">
+      <p>◼ 将此文件保存为 HTML 文件后：</p>
+      <p>1. 访问 <a href="https://github.com" target="_blank">GitHub</a> 并注册账号</p>
+      <p>2. 创建新仓库，命名为 <strong>用户名.github.io</strong></p>
+      <p>3. 上传此文件到仓库，命名为 <strong>index.html</strong></p>
+      <p>4. 通过 <strong>https://用户名.github.io</strong> 即可访问</p>
+    </div>
+  </div>
+
+  <script>
+    function calculate() {
+      const openPrice = parseFloat(document.getElementById("openPrice").value);
+      const increaseRate = parseFloat(document.getElementById("increaseRate").value);
+      const errorEl = document.getElementById("errorMsg");
+      
+      if (isNaN(openPrice) || isNaN(increaseRate)) {
+        showError("请输入有效数字");
+        return;
+      }
+      
+      const finalPrice = openPrice * (1 + increaseRate / 100);
+      document.getElementById("result").innerText = finalPrice.toFixed(3);
+      errorEl.innerText = "";
+    }
+    
+    function showError(message) {
+      document.getElementById("errorMsg").innerText = message;
+      document.getElementById("result").innerText = "0.000";
+    }
+  </script>
+</body>
+</html>
